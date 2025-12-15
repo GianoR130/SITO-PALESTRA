@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC 1/8 Nitro: Telemetria e Analisi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff3e3e; /* Rosso Nitro */
+            --accent-color: #00d4ff; /* Ciano Elettrico */
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-light: #f1f5f9;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(90deg, #000 0%, var(--bg-card) 100%);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            color: var(--text-dim);
+            margin-top: 10px;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* SECTIONS */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 1rem;
+            color: var(--text-light);
+        }
+
+        /* GRID LAYOUTS */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* TELEMETRY SIMULATOR STYLES */
+        .telemetry-dashboard {
+            background-color: #000;
+            border: 1px solid #333;
+            padding: 1rem;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1rem;
+        }
+
+        .data-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .metric {
+            margin-bottom: 1rem;
+            background: #111;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .metric-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        canvas {
+            background: #0d0d0d;
+            width: 100%;
+            height: 250px;
+            border: 1px solid #222;
+        }
+
+        /* SIMULATION & AI */
+        .tech-box {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #2c3e50 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #000;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 768px) {
+            .telemetry-dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RC 1/8 Nitro On-Road</h1>
+        <p>Ingegneria di precisione in scala: Analisi Dati e Performance</p>
+    </header>
+
+    <div class="container">
+        
+        <section>
+            <h2 class="section-title">1. L'Ecosistema dei Sensori</h2>
+            <p style="margin-bottom: 1rem;">Nel modellismo 1/8 pista, dove i motori a scoppio raggiungono i 45.000 RPM, i sensori devono essere microscopici e resistenti a vibrazioni estreme.</p>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Sensori Termici</h3>
+                    <p>Monitorano la temperatura della testata del motore (range ottimale 100-110°C). Fondamentali per evitare grippaggi e ottimizzare la carburazione.</p>
+                </div>
+                <div class="card">
+                    <h3>Modulo GPS/GNSS</h3>
+                    <p>Utilizzato per tracciare la velocità assoluta e le traiettorie in pista. Permette di sovrapporre i dati di guida alla mappa del circuito.</p>
+                </div>
+                <div class="card">
+                    <h3>Ricevente Telemetrica</h3>
+                    <p>Legge il voltaggio della batteria RX (fondamentale per i servi) e comunica in tempo reale con il radiocomando (protocolli FHSS/FASST).</p>
+                </div>
+                <div class="card">
+                    <h3>Sensore RPM</h3>
+                    <p>Un sensore magnetico o ottico sul volano legge i giri motore per analizzare l'attacco della frizione centrifuga.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">2. Telemetria e Data Analysis</h2>
+            <p>I dati vengono trasmessi via radio al pilota (feedback aptico/visivo sul radiocomando) e scaricati post-gara via Bluetooth su software PC per l'analisi dei grafici.</p>
+            
+            <div class="tech-box" style="margin-top: 1rem;">
+                <h3>Live Simulation Dashboard</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 10px; color: var(--text-dim);">Simulazione in tempo reale di un motore 3.5cc in rettilineo. JavaScript genera i dati e renderizza il grafico.</p>
+                
+                <div class="telemetry-dashboard">
+                    <div class="data-panel">
+                        <div class="metric">
+                            <div class="metric-label">MOTORE (RPM)</div>
+                            <div class="metric-value" id="rpm-val">0</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">VELOCITÀ (KM/H)</div>
+                            <div class="metric-value" id="speed-val">0</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">TEMP TESTATA (°C)</div>
+                            <div class="metric-value" id="temp-val" style="color: #ff9f43;">0</div>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="telemetryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="grid-3">
+                <div class="card" style="grid-column: span 2;">
+                    <h2 class="section-title">3. Algoritmi e IA</h2>
+                    <p>Nelle gare RC moderne, l'elettronica gioca un ruolo cruciale:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>ESC Intelligenti (Brushless):</strong> Sebbene qui parliamo di Nitro, nelle categorie ibride gli algoritmi di "Boost" e "Turbo" timing gestiscono l'anticipo motore dinamicamente.</li>
+                        <li><strong>Gyro Assist:</strong> Algoritmi PID (Proporzionale-Integrale-Derivativo) nello sterzo correggono sovrasterzi impercettibili in millisecondi (vietati in alcune gare titolate, usati nei test).</li>
+                        <li><strong>Analisi Strategica:</strong> Software predittivi calcolano il consumo di carburante al millilitro per decidere se fare un pit-stop a 4:30 o 5:00 minuti.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2 class="section-title">4. Digital Twin</h2>
+                    <p>Prima di scendere in pista, i piloti usano simulatori come <strong>VRC Pro</strong>.</p>
+                    <p style="margin-top:10px;">Utilizzando lo stesso radiocomando reale collegato via USB, si testano setup di sospensioni e geometrie su repliche laser-scan delle piste del mondiale.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">5. La Fisica della 1/8 On-Road</h2>
+            <div class="tech-box">
+                <p>Questi bolidi pesano circa 2.5kg e hanno motori da 3.5cc che producono quasi 3 cavalli. Il rapporto peso/potenza è mostruoso.</p>
+                <hr style="border-color: #444; margin: 15px 0;">
+                <div class="grid-3">
+                    <div>
+                        <strong style="color:var(--accent-color)">Accelerazione</strong><br>
+                        0-100 km/h in meno di 1.8 secondi. La trazione è gestita da 3 differenziali e frizioni centrifughe regolabili.
+                    </div>
+                    <div>
+                        <strong style="color:var(--accent-color)">Carico Aerodinamico</strong><br>
+                        La carrozzeria "Lola" genera kg di downforce, permettendo velocità in curva dove la forza G laterale supera i 3G.
+                    </div>
+                    <div>
+                        <strong style="color:var(--accent-color)">Interpretazione Dati</strong><br>
+                        Se la telemetria mostra un calo di RPM in rettilineo ma la velocità sale, significa che la frizione sta slittando o la miscela è troppo magra.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2023 RC Telemetry Project - Dimostrazione Tecnica HTML/JS</p>
+    </footer>
+
+    <script>
+        // Configurazione Canvas
+        const canvas = document.getElementById('telemetryChart');
+        const ctx = canvas.getContext('2d');
+        
+        // Adatta canvas al contenitore
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        // Variabili di stato
+        let time = 0;
+        let rpmData = [];
+        const maxDataPoints = 100; // Quanti punti mostrare nel grafico
+
+        // Elementi DOM
+        const rpmEl = document.getElementById('rpm-val');
+        const speedEl = document.getElementById('speed-val');
+        const tempEl = document.getElementById('temp-val');
+
+        // Funzione per generare dati simulati (Simulazione di un giro)
+        function generateData() {
+            // Simuliamo un ciclo di accelerazione e frenata
+            // Usa Math.sin per creare curve dolci + rumore casuale
+            const baseCurve = Math.abs(Math.sin(time * 0.05)); 
+            
+            // Calcolo RPM (Min 3000, Max 42000)
+            let currentRpm = 3000 + (baseCurve * 39000) + (Math.random() * 1000);
+            
+            // Calcolo Velocità (proporzionale a RPM con inerzia)
+            let currentSpeed = (currentRpm / 42000) * 120; // Max 120 km/h
+
+            // Calcolo Temperatura (sale lentamente e oscilla)
+            let currentTemp = 100 + (baseCurve * 15) + (Math.random() * 2);
+
+            // Aggiorna DOM
+            rpmEl.innerText = Math.floor(currentRpm).toLocaleString();
+            speedEl.innerText = Math.floor(currentSpeed);
+            tempEl.innerText = currentTemp.toFixed(1);
+
+            // Aggiungi dati all'array per il grafico
+            rpmData.push(currentRpm);
+            if (rpmData.length > maxDataPoints) {
+                rpmData.shift(); // Rimuovi il vecchio
+            }
+
+            time++;
+        }
+
+        // Funzione per disegnare il grafico
+        function drawChart() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.beginPath();
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 2;
+
+            // Disegna la linea RPM
+            for (let i = 0; i < rpmData.length; i++) {
+                // Normalizza il valore per adattarlo all'altezza del canvas
+                // Altezza canvas - (valore / max * altezza)
+                const x = (i / maxDataPoints) * canvas.width;
+                const y = canvas.height - (rpmData[i] / 45000) * canvas.height;
+
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Effetto gradiente sotto la linea
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.fillStyle = 'rgba(0, 212, 255, 0.1)';
+            ctx.fill();
+        }
+
+        // Loop principale
+        setInterval(() => {
+            generateData();
+            drawChart();
+        }, 50); // Aggiorna ogni 50ms (20fps)
+
+        // Gestione resize finestra
+        window.addEventListener('resize', () => {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        });
+
+    </script>
+</body>
+</html>
